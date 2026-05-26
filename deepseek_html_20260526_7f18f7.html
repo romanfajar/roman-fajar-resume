@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Eid Mubarak | Roman Fajar ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fdf8f0;
+            font-family: 'Playfair Display', 'Segoe UI', 'Poppins', -apple-system, BlinkMacSystemFont, serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            touch-action: pan-y pinch-zoom;
+        }
+
+        /* elegant geometric pattern background */
+        .pattern-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath fill='none' stroke='%23e8dccc' stroke-width='0.6' d='M20 20 L100 20 L100 100 L20 100 Z M35 35 L85 35 L85 85 L35 85 Z M50 50 L70 50 L70 70 L50 70 Z'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 48px;
+            opacity: 0.35;
+        }
+
+        /* slides container */
+        .slides-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.7s;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fffdf9;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* typography */
+        .orange-accent {
+            color: #cf6f2e;
+        }
+
+        .big-name {
+            font-size: clamp(2.4rem, 9vw, 4rem);
+            font-weight: 800;
+            color: #cf6f2e;
+            letter-spacing: -0.02em;
+        }
+
+        /* pause toast */
+        .pause-toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            color: #ffeedd;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        .pause-toast.show {
+            opacity: 1;
+        }
+
+        /* SVG line art container */
+        .svg-icon {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        svg {
+            max-width: 120px;
+            height: auto;
+        }
+
+        /* Unique text animation classes (per slide) */
+        .text-reveal span {
+            display: inline-block;
+            opacity: 0;
+            animation: letterPop 0.05s forwards;
+        }
+        @keyframes letterPop {
+            0% { opacity: 0; transform: translateY(8px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+
+        .stagger-card > * {
+            opacity: 0;
+            animation: cardFloat 0.4s forwards;
+        }
+        @keyframes cardFloat {
+            from { opacity: 0; transform: translateX(-20px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+
+        .word-glow span {
+            display: inline-block;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+        .glow-active {
+            color: #cf6f2e !important;
+            text-shadow: 0 0 5px rgba(207,111,46,0.5);
+        }
+
+        .blur-text {
+            filter: blur(8px);
+            opacity: 0;
+            animation: sharpen 0.6s forwards;
+        }
+        @keyframes sharpen {
+            to { filter: blur(0); opacity: 1;}
+        }
+
+        .vertical-drift > div {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: driftUp 0.5s forwards;
+        }
+        @keyframes driftUp {
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .signature-draw {
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            animation: drawLine 1.2s ease forwards;
+        }
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* card styles slide2 */
+        .hr-card, .meat-card {
+            background: white;
+            border-radius: 32px;
+            padding: 1.4rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+            border: 1px solid #f1e4d4;
+        }
+        .meat-card {
+            background: #fff7ef;
+            border-left: 5px solid #cf6f2e;
+        }
+        .alert-banner {
+            background: #fef0e2;
+            border-radius: 24px;
+            padding: 1rem;
+            font-size: 0.85rem;
+            border: 1px dashed #cf6f2e;
+        }
+
+        /* slide3 circle + toxic */
+        .circle-audit {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .outer-ring {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: rgba(207,111,46,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid #cf6f2e;
+        }
+        .core-dot {
+            width: 28px;
+            height: 28px;
+            background: #cf6f2e;
+            border-radius: 50%;
+            animation: pulseGlow 1.4s infinite;
+        }
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 0.9; box-shadow: 0 0 0 0 #cf6f2e80;}
+            100% { transform: scale(1.2); opacity: 0.6; box-shadow: 0 0 0 8px rgba(207,111,46,0);}
+        }
+        .toxic-group {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin: 20px 0;
+        }
+        .toxic-particle {
+            width: 28px;
+            height: 28px;
+            background: #cdbc9f;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+
+        /* slide4 tilt */
+        .tilt-popup {
+            transform: rotate(-1.5deg);
+            background: #fff5ea;
+            border-radius: 28px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid #cf6f2e;
+            animation: gentleTilt 0.4s ease;
+        }
+        @keyframes gentleTilt {
+            from { transform: rotate(0deg); opacity: 0; }
+            to { transform: rotate(-1.5deg); opacity: 1; }
+        }
+
+        /* slide5 moon */
+        .moon-rise {
+            text-align: center;
+            animation: moonFloat 1.2s ease-out;
+        }
+        @keyframes moonFloat {
+            0% { transform: translateY(70px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* slide6 geometric confetti */
+        .confetti-layer {
+            position: relative;
+        }
+        .replay-btn {
+            background: #cf6f2e;
+            border: none;
+            color: white;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            margin-top: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .progress-dots {
+            position: fixed;
+            bottom: 24px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            z-index: 30;
+        }
+        .dot {
+            width: 7px;
+            height: 7px;
+            background: #d6c6ae;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+        .dot.active-dot {
+            width: 24px;
+            background: #cf6f2e;
+            border-radius: 8px;
+        }
+        .floating-geom {
+            position: fixed;
+            pointer-events: none;
+            z-index: 5;
+        }
+        @media (max-width: 550px) {
+            .slide { padding: 20px 18px; }
+        }
+    </style>
+</head>
+<body>
+<div class="pattern-bg"></div>
+<div class="slides-container" id="slidesContainer">
+    <!-- SLIDE 1 :: letter by letter reveal + SVG Steaming Pot + Faro bracket -->
+    <div class="slide" data-slide="0">
+        <div class="content elegant-center" style="text-align: center;">
+            <p style="font-size: 1rem; color:#9b7b58;">Eid Mubarak to my absolute favorite fluffy foodie,</p>
+            <div class="big-name" id="nameReveal">Roman Fajar! ✨</div>
+            <div class="svg-icon" id="steamPotSvg">
+                <svg width="110" height="100" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 55 L70 55 L65 75 L35 75 L30 55Z" stroke="#cf6f2e" stroke-width="1.8" fill="#fff3e6"/>
+                    <path d="M45 55 L45 40" stroke="#cf6f2e" stroke-width="1.8"/>
+                    <path d="M55 55 L55 40" stroke="#cf6f2e" stroke-width="1.8"/>
+                    <path d="M38 40 L62 40 L62 35 L38 35 Z" stroke="#cf6f2e" stroke-width="1.5" fill="#f9e4cf"/>
+                    <path d="M48 28 Q52 20 58 28" stroke="#cf6f2e" stroke-width="1.4" fill="none"/>
+                    <!-- steam lines animated -->
+                    <path d="M42 28 Q38 18 44 12" stroke="#cf6f2e" stroke-width="1.2" stroke-dasharray="3 3" class="steam1">
+                        <animate attributeName="d" values="M42 28 Q38 18 44 12;M42 28 Q34 20 42 10;M42 28 Q38 18 44 12" dur="2.5s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M58 27 Q64 20 58 12" stroke="#cf6f2e" stroke-width="1.2" stroke-dasharray="3 3" class="steam2">
+                        <animate attributeName="d" values="M58 27 Q64 20 58 12;M58 27 Q70 18 60 8;M58 27 Q64 20 58 12" dur="2.2s" repeatCount="indefinite"/>
+                    </path>
+                </svg>
+            </div>
+            <div id="faroBracketText" style="font-size: 1.1rem; font-style: italic; margin-top: 4px; color:#b2723a;">or whom I love to call as my Faro</div>
+            <p id="biryaniText" style="margin-top: 20px; font-weight: 500;">May your day be filled with peace, blessings, and an endless supply of Mutton Biryani.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2 :: staggered card pop + meat cut diagram svg + arrow draw -->
+    <div class="slide" data-slide="1">
+        <div class="content stagger-card" id="staggerSlide2">
+            <div class="hr-card"><p>📊 You spent years studying Psychology and working in HR just to realize that the human brain is complicated...</p></div>
+            <div class="meat-card"><p>🧠🥩 ...but your stomach is simple: <strong>It just wants MEAT.</strong><br>May your Eid be free of corporate stress and full of premium boti!</p></div>
+            <div class="svg-icon"><svg width="100" height="50" viewBox="0 0 100 40"><path d="M20 20 L75 20" stroke="#cf6f2e" stroke-width="2" stroke-dasharray="4 2"/><polygon points="75,15 85,20 75,25" fill="#cf6f2e"/><text x="50" y="35" font-size="8" fill="#b97f52">MEAT→</text></svg></div>
+            <div class="alert-banner">⚠️ <strong>The Holy Rules of Distribution:</strong> 1/3 needy, 1/3 relatives, and 1/3 for ME (your superior best friend). Do not let anyone else steal my share. <em>Though it seems impossible for me to get that now...</em></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3 :: word glow + toxic dots scatter -->
+    <div class="slide" data-slide="2">
+        <div class="content" style="text-align: center;">
+            <p>Eid ul Adha teaches us the beauty of devotion and keeping our sacred bonds pure... Which means focusing on the right people.</p>
+            <div class="circle-audit"><div class="outer-ring"><div class="core-dot"></div></div></div>
+            <p id="glowWords">As an HR expert, you should know when to <strong class="orange-accent" id="fireWord">FIRE</strong> toxic background noise and distant "friends" who don't appreciate you like I do.</p>
+            <div class="toxic-group" id="toxicGroup"><div class="toxic-particle"></div><div class="toxic-particle"></div><div class="toxic-particle"></div></div>
+            <p><strong>I’m auditing your inner circle closely. 👁️‍🗨️</strong> Let's keep the inner circle exclusive. Just saying.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 4 :: blur to focus + tilted popup, camera shutter SVG -->
+    <div class="slide" data-slide="3">
+        <div class="content">
+            <div class="svg-icon"><svg width="80" height="70" viewBox="0 0 80 70"><circle cx="40" cy="35" r="18" stroke="#cf6f2e" stroke-width="1.6" fill="none"/><rect x="28" y="20" width="24" height="6" fill="#cf6f2e" opacity="0.7"/><path d="M58 28 L70 22 L70 38 Z" fill="#cf6f2e" opacity="0.6"/></svg></div>
+            <div class="blur-text" id="blurTextMain"><p style="font-weight: bold; font-size: 1.3rem;">Quick Eid Reminder...</p><p>Also, a quick Eid reminder... <strong>I possess some incredibly precious, top-secret pictures of you.</strong> 🤫<br><em>Do not forget to share more pics with me today.</em></p></div>
+            <div class="tilt-popup" id="tiltBox">And remember, no matter how much you deny it... <strong>I absolutely love your fluffy hair.</strong> Don't test me, or my patience leaks!</div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 :: vertical drift + crescent moon + Faro floating -->
+    <div class="slide" data-slide="4">
+        <div class="content vertical-drift" id="nostalgiaSlide">
+            <div class="moon-rise"><svg width="90" height="90" viewBox="0 0 100 100"><path d="M60 20 A35 35 0 1 1 30 70 A40 40 0 0 0 60 20Z" fill="#f5d742" stroke="#cf6f2e" stroke-width="1"/><circle cx="75" cy="30" r="2.5" fill="#fae372"/><circle cx="82" cy="45" r="1.8" fill="#fae372"/></svg></div>
+            <div><p>We’ve been rock solid since <strong>2020</strong>. I still remember how you used to wait for my wishes, and how we spent our Chand Raats together. We are both busy now...</p></div>
+            <div><p>...but you'll always have the cutest fluffy cheeks, fluffy fingers, the cutest smile, and big eyes. <span class="orange-accent">or whom I love to call as my Faro</span> 🌙</p></div>
+            <div><p><em>Having a beautiful, lively, and soft-hearted best friend is a true blessing from Allah.</em></p></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6 :: signature draw-in + final note fade + geometric shapes falling -->
+    <div class="slide" data-slide="5">
+        <div class="content final-message" style="text-align: center;">
+            <h2 style="font-size: clamp(1.8rem,6vw,2.6rem);">Have a beautiful, blessed, and highly delicious Eid! 🎉</h2>
+            <svg width="260" height="60" viewBox="0 0 260 60" style="margin: 0 auto; display: block;">
+                <path d="M30 38 Q50 30 70 40 Q90 48 110 36 Q130 25 150 38 Q170 48 190 34 Q210 26 230 38" stroke="#cf6f2e" fill="none" stroke-width="1.5" stroke-dasharray="300" stroke-dashoffset="300" class="signature-draw"/>
+                <text x="30" y="52" font-size="16" fill="#cf6f2e" font-family="'Brush Script MT', cursive">— Your beloved Haider Ali</text>
+            </svg>
+            <p style="margin-top: 5px;"><em>To my Faro, always...</em></p>
+            <div style="background: #faf2e8; border-radius: 32px; padding: 16px; margin-top: 20px;">
+                <p>On a serious note, Roman—having a best friend like you is a true blessing from Allah. May He accept your prayers, your sacrifices, and your good deeds today and always.</p>
+            </div>
+            <button class="replay-btn" id="replayFinalBtn">⟳ Watch Again</button>
+        </div>
+    </div>
+</div>
+<div class="progress-dots" id="progressDots"></div>
+<div class="pause-toast" id="pauseToast">⏸ Paused — tap to resume</div>
+
+<script>
+    (function(){
+        const slides = document.querySelectorAll('.slide');
+        let currentIdx = 0;
+        let autoTimer = null;
+        let isPaused = false;
+        let pausedByUser = false;
+        let timeoutIds = [];
+
+        // ---- PROGRESS DOTS ----
+        const dotsContainer = document.getElementById('progressDots');
+        function buildDots(){
+            for(let i=0;i<slides.length;i++){
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                dot.dataset.idx = i;
+                dot.addEventListener('click', (e)=>{
+                    e.stopPropagation();
+                    if(autoTimer) clearTimeout(autoTimer);
+                    goToSlide(i);
+                    resetAutoTimer();
+                    if(isPaused){
+                        isPaused=false;
+                        pausedByUser=false;
+                        hidePauseToast();
+                        resetAutoTimer();
+                    }
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+        function updateDots(){
+            document.querySelectorAll('.dot').forEach((dot,i)=>{
+                if(i===currentIdx) dot.classList.add('active-dot');
+                else dot.classList.remove('active-dot');
+            });
+        }
+
+        // --- UNIQUE TEXT ANIMATIONS PER SLIDE (trigger on active)---
+        function activateSlideAnimations(index){
+            // reset any ongoing per slide intervals
+            if(index===0){
+                // letter-by-letter reveal for name
+                const nameEl = document.getElementById('nameReveal');
+                if(nameEl && !nameEl.hasAttribute('data-animated')){
+                    const text = nameEl.innerText;
+                    nameEl.innerHTML = '';
+                    [...text].forEach((ch,idx)=>{
+                        const span = document.createElement('span');
+                        span.style.animationDelay = `${idx * 0.03}s`;
+                        span.innerText = ch;
+                        nameEl.appendChild(span);
+                    });
+                    nameEl.setAttribute('data-animated','true');
+                }
+                // faro bracket effect subtle draw
+                const faroDiv = document.getElementById('faroBracketText');
+                if(faroDiv && !faroDiv.hasAttribute('data-drawn')){
+                    faroDiv.style.opacity='0';
+                    setTimeout(()=>{ faroDiv.style.transition='opacity 0.5s'; faroDiv.style.opacity='1';},200);
+                    faroDiv.setAttribute('data-drawn','true');
+                }
+                const biryaniP = document.getElementById('biryaniText');
+                if(biryaniP) biryaniP.style.animation='fadeInUp 0.7s';
+            }
+            else if(index===1){
+                const container = document.getElementById('staggerSlide2');
+                if(container && !container.hasAttribute('data-staggered')){
+                    const children = container.children;
+                    for(let i=0;i<children.length;i++){
+                        children[i].style.animationDelay = `${i*0.15}s`;
+                        children[i].style.animationName = 'cardFloat';
+                    }
+                    container.setAttribute('data-staggered','true');
+                }
+            }
+            else if(index===2){
+                // word glow sequential fire word plus other key terms
+                const glowContainer = document.getElementById('glowWords');
+                if(glowContainer && !glowContainer.hasAttribute('data-glow')){
+                    const words = glowContainer.innerText.split(' ');
+                    glowContainer.innerHTML = '';
+                    words.forEach((word,i)=>{
+                        const spanWord = document.createElement('span');
+                        spanWord.innerText = word+' ';
+                        spanWord.style.transitionDelay = `${i*0.06}s`;
+                        glowContainer.appendChild(spanWord);
+                        setTimeout(()=>{
+                            if(word.toUpperCase().includes('FIRE') || word.toUpperCase().includes('EXCLUSIVE') || word.toUpperCase().includes('AUDITING')) {
+                                spanWord.classList.add('glow-active');
+                            }
+                        }, i*80);
+                    });
+                    glowContainer.setAttribute('data-glow','true');
+                }
+                // scatter toxic dots
+                const toxics = document.querySelectorAll('.toxic-particle');
+                toxics.forEach((dot,idx)=>{
+                    setTimeout(()=>{
+                        dot.style.transform = `translateX(${60 + idx*20}px) translateY(-40px) scale(0.2)`;
+                        dot.style.opacity='0';
+                    },400);
+                });
+            }
+            else if(index===3){
+                const blurBlock = document.getElementById('blurTextMain');
+                if(blurBlock && !blurBlock.hasAttribute('data-blurred')){
+                    blurBlock.classList.add('blur-text');
+                    blurBlock.setAttribute('data-blurred','true');
+                }
+                const tiltBoxx = document.getElementById('tiltBox');
+                if(tiltBoxx && !tiltBoxx.hasAttribute('data-tilted')) tiltBoxx.style.animation='gentleTilt 0.5s ease forwards';
+            }
+            else if(index===4){
+                const driftContainer = document.getElementById('nostalgiaSlide');
+                if(driftContainer && !driftContainer.hasAttribute('data-drifted')){
+                    const items = driftContainer.children;
+                    for(let i=0;i<items.length;i++){
+                        items[i].style.animation = `driftUp 0.5s forwards`;
+                        items[i].style.animationDelay = `${i*0.2}s`;
+                    }
+                    driftContainer.setAttribute('data-drifted','true');
+                }
+            }
+            else if(index===5){
+                // signature drawn via CSS, also create floating geometric
+                if(!document.querySelector('.floating-geom')) addGeometricConfetti();
+                const signPath = document.querySelector('.signature-draw');
+                if(signPath) signPath.style.animation='drawLine 1.2s ease forwards';
+            }
+        }
+
+        function addGeometricConfetti(){
+            const containerDiv = document.createElement('div');
+            containerDiv.classList.add('floating-geom');
+            document.body.appendChild(containerDiv);
+            for(let i=0;i<36;i++){
+                const shape = document.createElement('div');
+                shape.innerHTML = '✦';
+                shape.style.position='absolute';
+                shape.style.color='#cf6f2e';
+                shape.style.fontSize=Math.random()*14+10+'px';
+                shape.style.left=Math.random()*100+'%';
+                shape.style.top='-20px';
+                shape.style.opacity=0.6;
+                shape.style.pointerEvents='none';
+                shape.style.animation=`fall ${Math.random()*3+2}s linear forwards`;
+                shape.style.animationDelay=Math.random()*1.5+'s';
+                containerDiv.appendChild(shape);
+                const styleSheet = document.createElement('style');
+                styleSheet.textContent = `@keyframes fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 0.8; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }`;
+                document.head.appendChild(styleSheet);
+            }
+            setTimeout(()=>{ if(containerDiv) containerDiv.remove(); },5000);
+        }
+
+        // --- NAVIGATION ---
+        function goToSlide(index){
+            if(index<0) index=0;
+            if(index>=slides.length){
+                if(autoTimer) clearTimeout(autoTimer);
+                return;
+            }
+            slides.forEach((slide,i)=>{
+                if(i===index){
+                    slide.classList.add('active');
+                    activateSlideAnimations(index);
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            currentIdx = index;
+            updateDots();
+        }
+
+        function nextSlide(){
+            if(pausedByUser || isPaused) return;
+            if(currentIdx+1 < slides.length){
+                goToSlide(currentIdx+1);
+                resetAutoTimer();
+            } else {
+                if(autoTimer) clearTimeout(autoTimer);
+            }
+        }
+
+        function resetAutoTimer(){
+            if(autoTimer) clearTimeout(autoTimer);
+            if(!pausedByUser && !isPaused){
+                autoTimer = setTimeout(()=>{ nextSlide(); }, 4500);
+            }
+        }
+
+        // Tap anywhere pause/resume (Option A)
+        function handleTapPause(e){
+            // avoid replay button double pause
+            if(e.target.closest('.replay-btn')) return;
+            if(!pausedByUser){
+                // pause
+                if(autoTimer) clearTimeout(autoTimer);
+                pausedByUser = true;
+                isPaused = true;
+                showPauseToast('⏸ Paused — tap to resume');
+            } else {
+                // resume
+                pausedByUser = false;
+                isPaused = false;
+                hidePauseToast();
+                resetAutoTimer();
+            }
+        }
+
+        let toastTimeout;
+        function showPauseToast(msg){
+            const toast = document.getElementById('pauseToast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            if(toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(()=>{
+                toast.classList.remove('show');
+            }, 1200);
+        }
+        function hidePauseToast(){
+            const toast = document.getElementById('pauseToast');
+            toast.classList.remove('show');
+            if(toastTimeout) clearTimeout(toastTimeout);
+        }
+
+        // touch swipe mobile friendly
+        let touchStart = 0;
+        function handleTouchStart(e){ touchStart = e.changedTouches[0].screenX; }
+        function handleTouchEnd(e){
+            if(!touchStart) return;
+            let diff = e.changedTouches[0].screenX - touchStart;
+            if(Math.abs(diff) > 60){
+                if(autoTimer) clearTimeout(autoTimer);
+                if(pausedByUser){
+                    pausedByUser=false; isPaused=false;
+                    hidePauseToast();
+                }
+                if(diff>0 && currentIdx>0) goToSlide(currentIdx-1);
+                else if(diff<0 && currentIdx<slides.length-1) goToSlide(currentIdx+1);
+                resetAutoTimer();
+            }
+            touchStart=0;
+        }
+
+        // Replay button at end
+        const replayBtn = document.getElementById('replayFinalBtn');
+        if(replayBtn){
+            replayBtn.addEventListener('click', (e)=>{
+                e.stopPropagation();
+                if(autoTimer) clearTimeout(autoTimer);
+                // reset all dynamic flags & toxic reset
+                document.querySelectorAll('.toxic-particle').forEach(d=>{ d.style.transform=''; d.style.opacity='1'; });
+                // reset slide data attributes for re-animation
+                slides.forEach(slide=>{
+                    const attrs = slide.querySelectorAll('[data-animated],[data-staggered],[data-glow],[data-blurred],[data-drifted]');
+                    attrs.forEach(el=>el.removeAttribute('data-animated'));
+                    attrs.forEach(el=>el.removeAttribute('data-staggered'));
+                    attrs.forEach(el=>el.removeAttribute('data-glow'));
+                    attrs.forEach(el=>el.removeAttribute('data-blurred'));
+                    attrs.forEach(el=>el.removeAttribute('data-drifted'));
+                });
+                document.querySelectorAll('.signature-draw').forEach(s=>s.style.animation='none');
+                pausedByUser=false;
+                isPaused=false;
+                hidePauseToast();
+                goToSlide(0);
+                resetAutoTimer();
+            });
+        }
+
+        document.body.addEventListener('touchstart', handleTouchStart);
+        document.body.addEventListener('touchend', handleTouchEnd);
+        document.body.addEventListener('click', (e)=>{
+            if(e.target.closest('.replay-btn')) return;
+            if(e.target.closest('.dot')) return;
+            handleTapPause(e);
+        });
+
+        buildDots();
+        goToSlide(0);
+        resetAutoTimer();
+
+        // ensure that pause toast hides after resume
+        window.addEventListener('load',()=>{
+            activateSlideAnimations(0);
+        });
+    })();
+</script>
+</body>
+</html>
