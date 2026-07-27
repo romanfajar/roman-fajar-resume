@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roman Fajar — Resume</title>
+  <link rel="icon" type="image/png" href="roman-fajar-favicon.png" />  <!-- ADD THIS -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -14,7 +15,7 @@
       box-sizing: border-box;
     }
 html {
-  font-size: 15px;  /* ← ALL scaling comes from here */
+  font-size: 14.8px;  /* Changed from 15px *//* ← ALL scaling comes from here */
 }
 
     body {
@@ -594,6 +595,75 @@ html {
         height: 14px;
       }
     }
+
+/* ============================================================
+   CERTIFICATIONS
+   ============================================================ */
+.cert-item {
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.cert-item::before {
+  content: "●";
+  position: absolute;
+  left: 0;
+  color: #FF8308;
+  font-weight: 700;
+  font-size: 0.55rem;
+  top: 0.3rem;
+}
+
+.cert-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #101A31;
+  display: block;
+  margin-bottom: 0.05rem;
+}
+
+.cert-details-row {
+  font-size: 0.78rem;
+  color: #6B7280;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.3rem;
+}
+
+.cert-details-row .cert-sep {
+  color: #101A31;
+  font-weight: 700;
+  margin: 0 0.1rem;
+}
+
+.cert-platform-link {
+  font-weight: 700;
+  color: #2563EB;
+  text-decoration: underline;
+  font-size: 0.78rem;
+}
+
+.cert-platform-link:hover {
+  color: #1D4ED8;
+}
+
+.cert-id-label {
+  font-weight: 400;
+  color: #6B7280;
+}
+
+.cert-id-value {
+  font-weight: 500;
+  color: #101A31;
+}
+
+.cert-date {
+  font-weight: 500;
+  color: #101A31;
+}
+
   </style>
 </head>
 <body>
@@ -729,7 +799,7 @@ html {
         <li><strong>Recruitment Efficiency:</strong> Reduced average hiring time by developing and implementing structured interview templates, evaluation scorecards, and high-visibility digital recruitment trackers.</li>
         <li><strong>Onboarding &amp; Workflows:</strong> Streamlined HR operations by designing and updating the centralized employee handbook, 10+ standard HR forms, and standardized templates, cutting onboarding cycle times.</li>
         <li><strong>Policy &amp; Governance:</strong> Authored and implemented critical corporate policies (including leave management, attendance systems, POSH frameworks, and code of conduct) to drive operational efficiency and compliance.</li>
-        <li><strong>Payroll Administration:</strong> Processed monthly payroll and compensation structures for 80+ employees, ensuring 100% accuracy in salary disbursements, benefit deductions, bonuses, and statutory tax compliance.</li>
+        <li><strong>Payroll Administration:</strong> Processed monthly payroll and compensation structures for 80+ employees, ensuring 100% accuracy in salary disbursements, deductions, benefits and bonuses.</li>
         <li><strong>Financial Management:</strong> Developed monthly, quarterly, and bi-yearly Operational Expenditure (OpEx) reports, delivering actionable expense analysis and cost comparisons to guide leadership in financial planning and budget allocation.</li>
         <li><strong>Performance Enablement:</strong> Administered performance appraisals, structured feedback loops, and career development initiatives, significantly improving team-wide engagement and career tracking.</li>
         <li><strong>Employee Relations:</strong> Resolved employee grievances and conducted workplace conflict mediation, helping to foster a positive, inclusive organizational culture and reduce annual turnover.</li>
@@ -747,7 +817,7 @@ html {
     <div>
       <div class="skills-group">
         <span class="label">Employee Lifecycle Management:</span>
-        <span class="tags">End-to-End Recruitment &amp; Talent Acquisition, Boolean Search Logic, Talent Pipeline Building, Candidate Sourcing, Candidate Screening &amp; Evaluation, Job Description Engineering, Employee Onboarding &amp; Offboarding.</span>
+        <span class="tags">End-to-End Recruitment &amp; Talent Acquisition, Job Description Engineering, Boolean Search Logic, Talent Pipeline Building, Candidate Sourcing, Candidate Screening &amp; Evaluation, Employee Onboarding &amp; Offboarding.</span>
       </div>
       <div class="skills-group">
         <span class="label">Financial Operations:</span>
@@ -798,6 +868,57 @@ html {
     <div class="edu-degree">F.Sc. (Pre-Medical)</div>
     <div class="edu-school">ILM Group of Colleges, Renala Khurd</div>
     <div class="edu-grade">Final Grade: <span class="value">A+</span></div>
+  </div>
+</section>
+
+
+<!-- ===== CERTIFICATIONS ===== -->
+<section class="section">
+  <div class="section-title">Certifications</div>
+
+  <div class="cert-item">
+    <span class="cert-name">Introduction to Human Resource Concepts</span>
+    <div class="cert-details-row">
+      <a href="https://www.linkedin.com/posts/romanfajar_career-work-leadership-activity-7345481062334001154-zPN6?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaItK0Bs9hYt12rwDNH2hd24eZUDavTkk0" target="_blank" class="cert-platform-link">Udemy</a>
+      <span class="cert-sep">|</span>
+      <span class="cert-date">Feb 2025</span>
+    </div>
+  </div>
+
+  <div class="cert-item">
+    <span class="cert-name">Effective Human Resource Administration</span>
+    <div class="cert-details-row">
+      <a href="https://www.linkedin.com/posts/romanfajar_learning-career-work-activity-7345487535105527808-QHSP?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaItK0Bs9hYt12rwDNH2hd24eZUDavTkk0" target="_blank" class="cert-platform-link">Udemy</a>
+      <span class="cert-sep">|</span>
+      <span class="cert-date">Mar 2025</span>
+    </div>
+  </div>
+
+  <div class="cert-item">
+    <span class="cert-name">Boolean Search Essentials for Recruitment Professionals!</span>
+    <div class="cert-details-row">
+      <a href="https://www.linkedin.com/posts/romanfajar_recruitment-boolean-learning-activity-7345494563429519361-TEeW?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaItK0Bs9hYt12rwDNH2hd24eZUDavTkk0" target="_blank" class="cert-platform-link">Udemy</a>
+      <span class="cert-sep">|</span>
+      <span class="cert-date">Mar 2025</span>
+    </div>
+  </div>
+
+  <div class="cert-item">
+    <span class="cert-name">Exit Interviews: Powerful HR Insights</span>
+    <div class="cert-details-row">
+      <a href="https://www.linkedin.com/posts/romanfajar_workplace-learning-exit-activity-7345500912360030208-Co-P?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaItK0Bs9hYt12rwDNH2hd24eZUDavTkk0" target="_blank" class="cert-platform-link">Udemy</a>
+      <span class="cert-sep">|</span>
+      <span class="cert-date">Apr 2025</span>
+    </div>
+  </div>
+
+  <div class="cert-item">
+    <span class="cert-name">Bookkeeping Basics #2: Understand The Mechanics</span>
+    <div class="cert-details-row">
+      <a href="https://www.linkedin.com/in/romanfajar/overlay/Certifications/1808946169/treasury/?" target="_blank" class="cert-platform-link">Udemy</a>
+      <span class="cert-sep">|</span>
+      <span class="cert-date">Sep 2025</span>
+    </div>
   </div>
 </section>
 
